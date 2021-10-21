@@ -8,9 +8,12 @@
 <body>
 
 <v-area id="city" >
+    <!--Example of global kernels which yield global params-->
     <v-kernel data-name="autenthication" data-states="{salt:int}" data-expects="{id:int, pass:str}"></v-kernel>
     <v-kernel data-name="bloom" data-states="{bitstring:70}" data-expects="{ip:int , port:int}"></v-kernel>
+    <!--area inside city topic = /city/area-->
     <v-area id="block">
+        <!--smart city pipeline any children can be mapped to this pipeline, proviced they meet the data-expects -->
         <v-pipeline id="smart-city">
             <v-stage data-name="filter">
                 <v-kernel data-name="autenthication" data-importfrom="#city"></v-kernel>
@@ -25,7 +28,7 @@
                 <v-kernel data-name="before_pub" data-states="{co2:str, noise:str, temp:str , score:str}">
             </v-stage>
         </v-pipeline>
-        
+        <!--device whithin /city/block topic = /city/block/klausdev it specifies which pipelines it maps to-->
         <v-dev id="klausdev" pipeline="#smart-city" data-params="{co2:float , noise:float, temp:float}"></v-dev>
         <v-dev id="cloughdev" pipeline="#smart-city" data-params="{co2:float , noise:float, temp:float}"></v-dev>
         <v-dev id="techgreendev" pipeline="#smart-city" data-params="{co2:float , noise:float, temp:float}"></v-dev>
